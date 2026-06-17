@@ -14,7 +14,7 @@ load_dotenv()
 
 class APIKeys(BaseModel):
     """API keys for external services."""
-    anthropic: Optional[str] = Field(default_factory=lambda: os.getenv("ANTHROPIC_API_KEY"))
+    openrouter: Optional[str] = Field(default_factory=lambda: os.getenv("OPENROUTER_API_KEY"))
     wolfram: Optional[str] = Field(default_factory=lambda: os.getenv("WOLFRAM_APP_ID"))
     openweather: Optional[str] = Field(default_factory=lambda: os.getenv("OPENWEATHER_API_KEY"))
 
@@ -67,6 +67,9 @@ class JarvisConfig(BaseModel):
 
     # Default city for weather
     default_city: str = Field("New York", env="JARVIS_CITY")
+
+    # OpenRouter model (Claude via OpenRouter)
+    openrouter_model: str = Field("anthropic/claude-sonnet-4", env="OPENROUTER_MODEL")
 
     def validate_config(self) -> bool:
         """Validate the configuration and return True if valid."""

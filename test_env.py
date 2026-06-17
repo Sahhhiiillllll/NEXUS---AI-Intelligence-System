@@ -1,14 +1,14 @@
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-class APIKeys(BaseSettings):
-    anthropic: str = Field(None, env="ANTHROPIC_API_KEY")
+class APIKeys(BaseModel):
+    openrouter: str = Field(default_factory=lambda: os.getenv("OPENROUTER_API_KEY"))
 
-class JarvisConfig(BaseSettings):
+class JarvisConfig(BaseModel):
     api_keys: APIKeys = Field(default_factory=APIKeys)
 
 config = JarvisConfig()
-print("KEY IS:", config.api_keys.anthropic)
+print("KEY IS:", config.api_keys.openrouter)

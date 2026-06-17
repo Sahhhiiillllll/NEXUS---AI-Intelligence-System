@@ -17,7 +17,7 @@ services:
       - JARVIS_HOST=0.0.0.0
       - JARVIS_PORT=8765
       # Add your API keys here or use .env file
-      # - ANTHROPIC_API_KEY=your_key_here
+      # - OPENROUTER_API_KEY=your_key_here
       # - WOLFRAM_APP_ID=your_app_id_here
       # - OPENWEATHER_API_KEY=your_key_here
       # - JARVIS_CITY=New York

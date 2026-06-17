@@ -4,7 +4,7 @@ J.A.R.V.I.S — intents.py
 Intelligent intent classification and tool-routing pipeline.
 
 Tools:
-  - LLMTool        : Anthropic Claude (primary brain, with memory)
+  - LLMTool        : OpenRouter LLM (primary brain, with memory)
   - WolframTool    : WolframAlpha for math / science / factual
   - WeatherTool    : OpenWeatherMap live forecasts
   - WebSearchTool  : DuckDuckGo search API
@@ -61,7 +61,8 @@ search_circuit_breaker = CircuitBreaker(
 )
 
 # ─── API Keys (from configuration) ────────────────────────────────────
-ANTHROPIC_API_KEY  = _config.api_keys.anthropic
+OPENROUTER_API_KEY = _config.api_keys.openrouter
+OPENROUTER_MODEL   = _config.openrouter_model
 WOLFRAM_APP_ID     = _config.api_keys.wolfram
 OPENWEATHER_API_KEY= _config.api_keys.openweather
 DEFAULT_CITY       = _config.default_city
@@ -86,8 +87,7 @@ class BaseTool:
 # ═══════════════════════════════ LLM TOOL ═══════════════════════════════════
 class LLMTool(BaseTool):
     """
-    Unified LLM tool — uses Anthropic Claude or OpenRouter based on API key.
-    If key starts with "sk-or-" -> OpenRouter, else Anthropic Claude.
+    OpenRouter LLM tool — routes to Claude and other models via OpenRouter.
     Maintains a rolling conversational context window.
     """
     name = "llm"
@@ -108,7 +108,7 @@ class LLMTool(BaseTool):
     )
     @bulkhead(max_concurrent=5, name="llm")
     async def _call_llm_api(self, payload: dict, headers: dict, url: str) -> dict:
-        """Call LLM API with resilience patterns."""
+        """Call OpenRouter API with resilience patterns."""
         async with aiohttp.ClientSession() as session:
             async with session.post(
                 url, json=payload, headers=headers, timeout=aiohttp.ClientTimeout(total=_config.external_services.http_timeout)
@@ -116,58 +116,32 @@ class LLMTool(BaseTool):
                 return await r.json()
 
     async def run(self, text: str, context: list) -> dict:
-        if not ANTHROPIC_API_KEY:
+        if not OPENROUTER_API_KEY:
             return FallbackTool().run_sync(text)
 
-        messages = list(context)  # copy of conversation history
+        messages = list(context)
         messages.append({"role": "user", "content": text})
 
-        # Determine provider
-        if ANTHROPIC_API_KEY.startswith("sk-or-"):
-            # OpenRouter API (OpenAI-compatible)
-            payload = {
-                "model": "anthropic/claude-sonnet-4",  # or you can specify; OpenRouter routes
-                "max_tokens": 800,
-                "messages": messages,
-                # OpenRouter does not use system param in same way; we can include as first message or via system field if supported.
-                # We'll prepend system as a developer message? For simplicity, we'll include system as first message.
-            }
-            headers = {
-                "Authorization": f"Bearer {ANTHROPIC_API_KEY}",
-                "Content-Type": "application/json",
-            }
-            # OpenRouter expects system message as part of messages; we'll insert at start.
-            openai_messages = [{"role": "system", "content": self.SYSTEM_PROMPT}] + messages
-            payload["messages"] = openai_messages
-            url = "https://openrouter.ai/api/v1/chat/completions"
-        else:
-            # Anthropic Claude API
-            payload = {
-                "model": "claude-sonnet-4-6",
-                "max_tokens": 800,
-                "system": self.SYSTEM_PROMPT,
-                "messages": messages,
-            }
-            headers = {
-                "x-api-key": ANTHROPIC_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            }
-            url = "https://api.anthropic.com/v1/messages"
+        payload = {
+            "model": OPENROUTER_MODEL,
+            "max_tokens": 800,
+            "messages": [{"role": "system", "content": self.SYSTEM_PROMPT}] + messages,
+        }
+        headers = {
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://github.com/Sahhhiiillllll/JARVIS---AI-Intelligence-System-LLM",
+            "X-Title": "J.A.R.V.I.S",
+        }
+        url = "https://openrouter.ai/api/v1/chat/completions"
 
         try:
             data = await self._call_llm_api(payload, headers, url)
-
-            if ANTHROPIC_API_KEY.startswith("sk-or-"):
-                # OpenRouter response format: choices[0].message.content
-                reply = data.get("choices", [{}])[0].get("message", {}).get("content", "")
-            else:
-                # Anthropic response format
-                reply = "".join(b.get("text", "") for b in data.get("content", []))
+            reply = data.get("choices", [{}])[0].get("message", {}).get("content", "")
             if not reply:
                 raise ValueError("Empty LLM response")
             log.info("LLM response received", extra={"chars": len(reply)})
-            return self._result(reply, "llm", "LLM responded")
+            return self._result(reply, "llm", "OpenRouter LLM responded")
 
         except Exception as e:
             log.error(f"LLM error: {e}", extra={"event": "llm_error"})

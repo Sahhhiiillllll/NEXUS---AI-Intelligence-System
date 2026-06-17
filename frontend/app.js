@@ -9,7 +9,7 @@
  *  - State machine (IDLE → LISTENING → PROCESSING → SPEAKING → IDLE)
  *  - Chat history & terminal log
  *  - WebSocket connection to Python backend (ws://localhost:8765)
- *  - Fallback: Claude API via Anthropic for in-browser demo mode
+ *  - Fallback: OpenRouter LLM via backend API in demo mode
  *  - Web Speech API for voice input + TTS output
  */
 
@@ -20,7 +20,7 @@ const CONFIG = {
   WS_URL:          window.location.hostname === 'localhost' ? 'ws://localhost:8765' : '',
   RECONNECT_MS:    3000,
   DEMO_MODE:       false,
-  ANTHROPIC_MODEL: 'claude-sonnet-4-6',
+  OPENROUTER_MODEL: 'anthropic/claude-sonnet-4',
 };
 
 /* ═══════════════════════════════ STATE MACHINE ═══════════════════════════════ */
@@ -110,7 +110,7 @@ function addTerminalLine(text, cls = '') {
 
 /* ═══════════════════════════════ CHAT ═══════════════════════════════ */
 const chatHistory = document.getElementById('chatHistory');
-const conversationHistory = []; // for Claude API multi-turn
+const conversationHistory = []; // multi-turn context for demo mode
 
 function addMessage(role, text) {
   const msg = document.createElement('div');
@@ -485,7 +485,7 @@ function handleBackendMessage(data) {
   }
 }
 
-/* ═══════════════════════════════ CLAUDE API (DEMO BRAIN) ═══════════════════════════════ */
+/* ═══════════════════════════════ LLM API (DEMO / FALLBACK) ═══════════════════════════════ */
 const SYSTEM_PROMPT = `You are J.A.R.V.I.S — Just A Rather Very Intelligent System — the AI assistant created by Tony Stark. You are highly articulate, confident, and subtly witty. You:
 - Answer concisely (1–3 sentences for simple queries, more for complex ones)
 - Identify query intent: math/science → note you'd invoke WolframAlpha; weather → note you'd check OpenWeatherMap; scheduling → confirm and note the action
@@ -493,10 +493,9 @@ const SYSTEM_PROMPT = `You are J.A.R.V.I.S — Just A Rather Very Intelligent Sy
 - For greetings, respond in character as JARVIS
 - Never break character`;
 
-async function askClaude(userText) {
+async function askLLM(userText) {
   conversationHistory.push({ role: 'user', content: userText });
 
-  // Detect intent → fire tool highlight
   const intent = classifyIntent(userText);
   if (intent !== 'llm') {
     fireToolHighlight(intent, 3000);
@@ -506,23 +505,17 @@ async function askClaude(userText) {
   }
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: CONFIG.ANTHROPIC_MODEL,
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: conversationHistory,
-      }),
+      body: JSON.stringify({ text: userText }),
     });
-
     const data = await response.json();
-    const reply = data.content?.map(b => b.text || '').join('') || 'I apologise — I encountered an issue processing that request.';
+    const reply = data.response || 'I apologise — I encountered an issue processing that request.';
     conversationHistory.push({ role: 'assistant', content: reply });
     return reply;
   } catch (err) {
-    addTerminalLine(`[ERR ] Claude API: ${err.message}`, 'warn');
+    addTerminalLine(`[ERR ] OpenRouter API: ${err.message}`, 'warn');
     return getFallbackResponse(userText);
   }
 }
@@ -581,8 +574,8 @@ async function handleUserInput(text) {
     return;
   }
 
-  // Demo mode: use Claude API
-  reply = await askClaude(text);
+  // Demo mode: use backend OpenRouter API
+  reply = await askLLM(text);
   const lat = endLatency();
   addTerminalLine(`[LLM ] Response ready (${lat}ms)`, 'ok');
   addMessage('jarvis', reply);

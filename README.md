@@ -33,7 +33,7 @@
 | Category | Capabilities |
 |----------|-------------|
 | **Voice UI** | Web Speech API (STT + TTS), waveform visualizer, Arc Reactor HUD |
-| **AI Brain** | Anthropic Claude via intent router with conversation memory |
+| **AI Brain** | OpenRouter LLM (Claude) via intent router with conversation memory |
 | **Tools** | Weather (OpenWeatherMap), Wolfram Alpha, DuckDuckGo search, scheduler |
 | **Resilience** | Circuit breakers, retry with backoff, bulkhead isolation |
 | **Observability** | Structured JSON logging, Prometheus metrics (local mode), health probes |
@@ -108,7 +108,7 @@ For development with microphone capture and persistent WebSocket:
 
 | Key | Required | Purpose |
 |-----|----------|---------|
-| `ANTHROPIC_API_KEY` | **Yes** (for LLM) | Primary AI brain |
+| `OPENROUTER_API_KEY` | **Yes** (for LLM) | Primary AI brain via [OpenRouter](https://openrouter.ai/) |
 | `WOLFRAM_APP_ID` | No | Math/science queries |
 | `OPENWEATHER_API_KEY` | No | Live weather |
 | `JARVIS_DEMO_MODE=true` | No | Offline fallback responses |
@@ -181,7 +181,7 @@ pip install -r requirements-local.txt
 
 ```bash
 cp .env.example .env
-# Edit .env — add your ANTHROPIC_API_KEY at minimum
+# Edit .env — add your OPENROUTER_API_KEY at minimum
 ```
 
 ### 4. Verify
@@ -224,7 +224,8 @@ This is the **production-ready** path. Frontend and Python API deploy together �
 
    | Variable | Value |
    |----------|-------|
-   | `ANTHROPIC_API_KEY` | Your Anthropic key |
+   | `OPENROUTER_API_KEY` | Your OpenRouter key |
+   | `OPENROUTER_MODEL` | (optional) e.g. `anthropic/claude-sonnet-4` |
    | `WOLFRAM_APP_ID` | (optional) |
    | `OPENWEATHER_API_KEY` | (optional) |
    | `JARVIS_CITY` | Default city, e.g. `New York` |
@@ -246,7 +247,7 @@ vercel --prod   # production
 Set env vars:
 
 ```bash
-vercel env add ANTHROPIC_API_KEY
+vercel env add OPENROUTER_API_KEY
 vercel env add WOLFRAM_APP_ID
 vercel env add OPENWEATHER_API_KEY
 ```
@@ -274,7 +275,7 @@ The frontend detects non-localhost hosting and uses `fetch('/api/chat')` instead
 
 ### Production checklist
 
-- [ ] `ANTHROPIC_API_KEY` set in Vercel Environment Variables (Production)
+- [ ] `OPENROUTER_API_KEY` set in Vercel Environment Variables (Production)
 - [ ] Never commit `.env` to git
 - [ ] Test `/api/health` after deploy
 - [ ] Test a chat message end-to-end
@@ -340,7 +341,8 @@ docker-compose up -d
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| `ANTHROPIC_API_KEY` | Anthropic Claude API key | — | Yes (LLM) |
+| `OPENROUTER_API_KEY` | OpenRouter API key | — | Yes (LLM) |
+| `OPENROUTER_MODEL` | Model routed via OpenRouter | `anthropic/claude-sonnet-4` | No |
 | `WOLFRAM_APP_ID` | Wolfram Alpha App ID | — | No |
 | `OPENWEATHER_API_KEY` | OpenWeatherMap key | — | No |
 | `JARVIS_HOST` | WebSocket bind host (local) | `localhost` | No |
@@ -442,7 +444,7 @@ JARVIS---AI-Intelligence-System-LLM/
 
 | Issue | Fix |
 |-------|-----|
-| API returns 500 on Vercel | Check `ANTHROPIC_API_KEY` in Vercel env vars |
+| API returns 500 on Vercel | Check `OPENROUTER_API_KEY` in Vercel env vars |
 | "Backend not reachable" | Wait for cold start; retry first message |
 | Voice not working | Use HTTPS (Vercel provides this); allow mic permission |
 | WebSocket fails locally | Run `python main.py` first; check port 8765 |
@@ -452,5 +454,5 @@ JARVIS---AI-Intelligence-System-LLM/
 ---
 
 
-
+Inspired by J.A.R.V.I.S. from Marvel's Iron Man. Built with [OpenRouter](https://openrouter.ai/), [FastAPI](https://fastapi.tiangolo.com/), [Vercel](https://vercel.com/), and vanilla web technologies.
 

@@ -217,18 +217,19 @@ class TestLLMTool(unittest.TestCase):
 
     def test_no_api_key_returns_fallback(self):
         import intents as _intents
-        orig = _intents.ANTHROPIC_API_KEY
-        _intents.ANTHROPIC_API_KEY = ""
+        orig = _intents.OPENROUTER_API_KEY
+        _intents.OPENROUTER_API_KEY = ""
         try:
             result = run_async(LLMTool().run("Hello", []))
             self.assertIsInstance(result["response"], str)
             self.assertTrue(len(result["response"]) > 5)
         finally:
-            _intents.ANTHROPIC_API_KEY = orig
+            _intents.OPENROUTER_API_KEY = orig
 
     def test_api_mock_success(self):
-        mock_content = [{"type": "text", "text": "I am JARVIS, at your service."}]
-        mock_response = {"content": mock_content}
+        mock_response = {
+            "choices": [{"message": {"content": "I am JARVIS, at your service."}}]
+        }
 
         async def _go():
             with patch("aiohttp.ClientSession") as mock_session_cls:
@@ -249,7 +250,7 @@ class TestLLMTool(unittest.TestCase):
                 mock_session_cls.return_value = mock_session
 
                 import intents as _intents
-                _intents.ANTHROPIC_API_KEY = "test_key"
+                _intents.OPENROUTER_API_KEY = "sk-or-test-key"
 
                 result = await LLMTool().run("Hello", [])
                 self.assertIn("JARVIS", result["response"])
