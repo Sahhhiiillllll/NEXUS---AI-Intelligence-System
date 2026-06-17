@@ -20,4 +20,4 @@ prometheus-client>=0.17.0
 
 # ── Testing ────────────────────────────────────────────────────────
 pytest>=8.0.0
-pytest-asyncio>=0.23.0
+pytest-asyncio>=0.23.0mangum>=0.17.0
