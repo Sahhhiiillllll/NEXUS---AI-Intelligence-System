@@ -18,7 +18,8 @@ import time
 from datetime import datetime, timezone
 from pathlib  import Path
 
-LOG_DIR  = Path(__file__).parent.parent / "logs"
+# Use /tmp/logs for writable logs in serverless environments like Vercel
+LOG_DIR  = Path("/tmp") / "logs"
 LOG_FILE = LOG_DIR / "jarvis.jsonl"
 
 
