@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vercel dev",
     "start:local": "python main.py",
-    "start:frontend": "python -m http.server 8080 --directory api/public"
+    "start:frontend": "python -m http.server 8080 --directory public"
   },
   "engines": {
     "node": ">=18"
