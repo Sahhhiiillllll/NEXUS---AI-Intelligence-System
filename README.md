@@ -2,10 +2,6 @@
 
 > **J.A.R.V.I.S** (Just A Rather Very Intelligent System) is a production-ready, voice-enabled AI assistant inspired by Tony Stark's AI from the Iron Man franchise. It ships with a cyberpunk neural HUD, real-time voice interaction, multi-tool LLM routing, and **one-click Vercel deployment** where the Python API starts automatically with the app — no separate backend server to run.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Sahhhiiillllll/JARVIS---AI-Intelligence-System-LLM)
-
-**Repository:** [github.com/Sahhhiiillllll/JARVIS---AI-Intelligence-System-LLM](https://github.com/Sahhhiiillllll/JARVIS---AI-Intelligence-System-LLM)
-
 ---
 
 ## Table of Contents
