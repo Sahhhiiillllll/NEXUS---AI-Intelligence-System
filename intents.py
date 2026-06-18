@@ -640,17 +640,21 @@ class IntentRouter:
     ]
 
     def __init__(self):
-        self._tools: dict[str, BaseTool] = {
-            "llm":       LLMTool(),
-            "wolfram":   WolframTool(),
-            "weather":   WeatherTool(),
-            "search":    WebSearchTool(),
-            "scheduler": SchedulerTool(),
-            "system":    SystemControlTool(),
-            "fallback":  FallbackTool(),
-        }
-        self._context: list[dict] = []
-        log.info("IntentRouter initialized", extra={"event": "router_init"})
+        try:
+            self._tools: dict[str, BaseTool] = {
+                "llm":       LLMTool(),
+                "wolfram":   WolframTool(),
+                "weather":   WeatherTool(),
+                "search":    WebSearchTool(),
+                "scheduler": SchedulerTool(),
+                "system":    SystemControlTool(),
+                "fallback":  FallbackTool(),
+            }
+            self._context: list[dict] = []
+            log.info("IntentRouter initialized", extra={"event": "router_init"})
+        except Exception as e:
+            log.error(f"Failed to initialize IntentRouter: {e}", extra={"event": "router_init_error"})
+            raise
 
     def classify(self, text: str) -> str:
         """Return the tool key for the given input text."""
