@@ -10,7 +10,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -69,19 +69,6 @@ async def health_check():
         "status": "ok",
         "message": "J.A.R.V.I.S API is online.",
         "mode": "serverless",
-    }
-
-
-# Debug route to see what paths are hitting the API
-@app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"])
-async def debug_route(request: Request, path: str):
-    log.info(f"DEBUG: Received {request.method} request for path: /{path}")
-    return {
-        "debug": True,
-        "method": request.method,
-        "path": f"/{path}",
-        "headers": dict(request.headers),
-        "query_params": dict(request.query_params),
     }
 
 
