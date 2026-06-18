@@ -181,7 +181,7 @@ class JarvisCore:
         print("  J.A.R.V.I.S — Unified Intelligence Core")
         print(f"  WebSocket: ws://{config.server.host}:{config.server.port}")
         print(f"  HTTP:      http://{config.server.host}:{config.server.port + 1000}")
-        print("  Open frontend/index.html in a browser")
+        print("  Open public/index.html in a browser")
         print("═" * 60 + "\n")
 
         try:
