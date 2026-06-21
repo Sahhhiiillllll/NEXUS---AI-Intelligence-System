@@ -450,5 +450,5 @@ JARVIS---AI-Intelligence-System-LLM/
 ---
 
 
-Inspired by J.A.R.V.I.S. from Marvel's Iron Man. Built with [OpenRouter](https://openrouter.ai/), [FastAPI](https://fastapi.tiangolo.com/), [Vercel](https://vercel.com/), and vanilla web technologies.
+
 
