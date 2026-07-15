@@ -1,13 +1,13 @@
 """
-J.A.R.V.I.S — logger.py
-========================
+N.A.X.U.S — logger.py
+======================
 Structured JSON logging system.
 
 Every log entry is a JSON object written to:
   - stderr (human-readable with color)
-  - logs/jarvis.jsonl (machine-readable, one JSON object per line)
+  - logs/nexus.jsonl (machine-readable, one JSON object per line)
 
-Frontend terminal reads logs/jarvis.jsonl via WebSocket broadcast from main.py.
+Frontend terminal reads logs/nexus.jsonl via WebSocket broadcast from main.py.
 """
 
 import json
@@ -20,7 +20,7 @@ from pathlib  import Path
 
 # Use /tmp/logs for writable logs in serverless environments like Vercel
 LOG_DIR  = Path("/tmp") / "logs"
-LOG_FILE = LOG_DIR / "jarvis.jsonl"
+LOG_FILE = LOG_DIR / "nexus.jsonl"
 
 
 class JSONFormatter(logging.Formatter):
@@ -81,7 +81,7 @@ class ColorConsoleFormatter(logging.Formatter):
 
 def _setup_root_logger():
     """Configure root logger once."""
-    root = logging.getLogger("jarvis")
+    root = logging.getLogger("nexus")
     if root.handlers:
         return  # already configured
 
@@ -104,6 +104,6 @@ def _setup_root_logger():
 
 
 def get_logger(name: str) -> logging.Logger:
-    """Get a named child logger under 'jarvis.*'."""
+    """Get a named child logger under 'nexus.*'."""
     _setup_root_logger()
-    return logging.getLogger(f"jarvis.{name}")
+    return logging.getLogger(f"nexus.{name}")

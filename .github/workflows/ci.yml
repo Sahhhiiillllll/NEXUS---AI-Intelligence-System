@@ -12,7 +12,7 @@ permissions:
 env:
   OPENROUTER_API_KEY: sk-or-ci-test-key
   OPENROUTER_MODEL: anthropic/claude-sonnet-4
-  JARVIS_DEMO_MODE: "true"
+  NEXUS_DEMO_MODE: "true"
 
 jobs:
   test:
@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t jarvis:ci .
+        run: docker build -t nexus:ci .
 
       - name: Test Docker image
-        run: docker run --rm jarvis:ci python -c "from config import get_config; print('Docker OK')"
+        run: docker run --rm nexus:ci python -c "from config import get_config; print('Docker OK')"

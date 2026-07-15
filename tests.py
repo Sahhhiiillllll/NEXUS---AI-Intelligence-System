@@ -229,7 +229,7 @@ class TestLLMTool(unittest.TestCase):
 
     def test_api_mock_success(self):
         mock_response = {
-            "choices": [{"message": {"content": "I am JARVIS, at your service."}}]
+            "choices": [{"message": {"content": "I am NEXUS, at your service."}}]
         }
 
         async def _go():
@@ -254,7 +254,7 @@ class TestLLMTool(unittest.TestCase):
                 _intents.OPENROUTER_API_KEY = "sk-or-test-key"
 
                 result = await LLMTool().run("Hello", [])
-                self.assertIn("JARVIS", result["response"])
+                self.assertIn("NEXUS", result["response"])
 
         run_async(_go())
 

@@ -1,6 +1,6 @@
 """
-J.A.R.V.I.S — Health Check Endpoints
-====================================
+N.A.X.U.S — Health Check Endpoints
+==================================
 HTTP endpoints for monitoring system health and readiness.
 """
 

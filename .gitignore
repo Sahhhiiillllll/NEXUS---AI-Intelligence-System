@@ -74,9 +74,9 @@ Thumbs.db
 logs/
 *.log
 
-# JARVIS specific
+# NEXUS specific
 .env
-logs/jarvis.jsonl
+logs/nexus.jsonl
 
 # Backup files
 *.bak

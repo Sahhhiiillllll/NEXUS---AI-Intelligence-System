@@ -130,7 +130,7 @@ class LLMTool(BaseTool):
         headers = {
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/Sahhhiiillllll/JARVIS---AI-Intelligence-System-LLM",
+            "HTTP-Referer": "https://github.com/Sahhhiiillllll/NEXUS---AI-Intelligence-System-LLM",
             "X-Title": "J.A.R.V.I.S",
         }
         url = "https://openrouter.ai/api/v1/chat/completions"
@@ -326,7 +326,7 @@ class WebSearchTool(BaseTool):
         try:
             data = await self._call_search_api(
                 {"q": query, "format": "json", "no_html": 1, "skip_disambig": 1},
-                {"User-Agent": "JARVIS/4.1"}
+                {"User-Agent": "NEXUS/4.1", "HTTP-Referer": "https://github.com/Sahhhiiillllll/NEXUS---AI-Intelligence-System-LLM"}
             )
 
             abstract = data.get("AbstractText", "").strip()

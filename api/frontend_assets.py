@@ -106,7 +106,7 @@ INDEX_HTML = '''<!DOCTYPE html>
           <div class="chat-msg jarvis">
             <div class="msg-avatar">J</div>
             <div class="msg-content">
-              <span class="msg-sender">JARVIS</span>
+              <span class="msg-sender">NEXUS</span>
               <p>All systems initialized. Neural networks calibrated. How can I assist you today?</p>
               <span class="msg-time">BOOT</span>
             </div>
@@ -722,7 +722,7 @@ function addMessage(role, text) {
   msg.innerHTML = `
     <div class="msg-avatar">${role === 'jarvis' ? 'J' : 'U'}</div>
     <div class="msg-content">
-      <span class="msg-sender">${role === 'jarvis' ? 'JARVIS' : 'YOU'}</span>
+      <span class="msg-sender">${role === 'jarvis' ? 'NEXUS' : 'YOU'}</span>
       <p>${escapeHtml(text)}</p>
       <span class="msg-time">${timeStr}</span>
     </div>`;
@@ -1093,7 +1093,7 @@ const SYSTEM_PROMPT = `You are J.A.R.V.I.S — Just A Rather Very Intelligent Sy
 - Answer concisely (1–3 sentences for simple queries, more for complex ones)
 - Identify query intent: math/science → note you'd invoke WolframAlpha; weather → note you'd check OpenWeatherMap; scheduling → confirm and note the action
 - Maintain context across the conversation
-- For greetings, respond in character as JARVIS
+- For greetings, respond in character as NEXUS
 - Never break character`;
 
 async function askLLM(userText) {

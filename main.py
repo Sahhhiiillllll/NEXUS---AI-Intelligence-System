@@ -203,7 +203,7 @@ def main():
     asyncio.set_event_loop(loop)
 
     def _shutdown(*_):
-        print("\n[JARVIS] Shutdown signal received...")
+        print("\n[NEXUS] Shutdown signal received...")
         for task in asyncio.all_tasks(loop):
             task.cancel()
 

@@ -1,5 +1,5 @@
 """
-J.A.R.V.I.S — Configuration Management
+N.A.X.U.S — Configuration Management
 =======================================
 Centralized configuration with validation and type safety.
 """
@@ -28,31 +28,31 @@ class APIKeys(BaseModel):
 
 class ServerConfig(BaseModel):
     """Server configuration."""
-    host: str = Field("localhost", env="JARVIS_HOST")
-    port: int = Field(8765, env="JARVIS_PORT")
-    debug: bool = Field(False, env="JARVIS_DEBUG")
-    reload: bool = Field(False, env="JARVIS_RELOAD")
+    host: str = Field("localhost", env="NEXUS_HOST")
+    port: int = Field(8765, env="NEXUS_PORT")
+    debug: bool = Field(False, env="NEXUS_DEBUG")
+    reload: bool = Field(False, env="NEXUS_RELOAD")
 
 
 class ExternalServiceConfig(BaseModel):
     """Configuration for external services."""
     # Timeouts in seconds
-    http_timeout: int = Field(15, env="JARVIS_HTTP_TIMEOUT")
-    wolfram_timeout: int = Field(10, env="JARVIS_WOLFRAM_TIMEOUT")
-    weather_timeout: int = Field(8, env="JARVIS_WEATHER_TIMEOUT")
-    search_timeout: int = Field(8, env="JARVIS_SEARCH_TIMEOUT")
+    http_timeout: int = Field(15, env="NEXUS_HTTP_TIMEOUT")
+    wolfram_timeout: int = Field(10, env="NEXUS_WOLFRAM_TIMEOUT")
+    weather_timeout: int = Field(8, env="NEXUS_WEATHER_TIMEOUT")
+    search_timeout: int = Field(8, env="NEXUS_SEARCH_TIMEOUT")
 
     # Retry configuration
-    max_retries: int = Field(3, env="JARVIS_MAX_RETRIES")
-    base_delay: float = Field(1.0, env="JARVIS_BASE_DELAY")
-    max_delay: float = Field(10.0, env="JARVIS_MAX_DELAY")
+    max_retries: int = Field(3, env="NEXUS_MAX_RETRIES")
+    base_delay: float = Field(1.0, env="NEXUS_BASE_DELAY")
+    max_delay: float = Field(10.0, env="NEXUS_MAX_DELAY")
 
     # Circuit breaker configuration
-    failure_threshold: int = Field(5, env="JARVIS_FAILURE_THRESHOLD")
-    recovery_timeout: int = Field(30, env="JARVIS_RECOVERY_TIMEOUT")
+    failure_threshold: int = Field(5, env="NEXUS_FAILURE_THRESHOLD")
+    recovery_timeout: int = Field(30, env="NEXUS_RECOVERY_TIMEOUT")
 
 
-class JarvisConfig(BaseModel):
+class NexusConfig(BaseModel):
     """Main application configuration."""
     api_keys: APIKeys = Field(default_factory=APIKeys)
     server: ServerConfig = Field(default_factory=ServerConfig)
@@ -61,12 +61,12 @@ class JarvisConfig(BaseModel):
     )
 
     # Feature flags
-    demo_mode: bool = Field(False, env="JARVIS_DEMO_MODE")
-    enable_metrics: bool = Field(True, env="JARVIS_ENABLE_METRICS")
-    enable_health_checks: bool = Field(True, env="JARVIS_ENABLE_HEALTH_CHECKS")
+    demo_mode: bool = Field(False, env="NEXUS_DEMO_MODE")
+    enable_metrics: bool = Field(True, env="NEXUS_ENABLE_METRICS")
+    enable_health_checks: bool = Field(True, env="NEXUS_ENABLE_HEALTH_CHECKS")
 
     # Default city for weather
-    default_city: str = Field("New York", env="JARVIS_CITY")
+    default_city: str = Field("New York", env="NEXUS_CITY")
 
     # OpenRouter model (Claude via OpenRouter)
     openrouter_model: str = Field("anthropic/claude-sonnet-4", env="OPENROUTER_MODEL")
@@ -90,21 +90,21 @@ class JarvisConfig(BaseModel):
 
 
 # Global configuration instance
-_config: Optional[JarvisConfig] = None
+_config: Optional[NexusConfig] = None
 
 
-def get_config() -> JarvisConfig:
+def get_config() -> NexusConfig:
     """Get the global configuration instance."""
     global _config
     if _config is None:
-        _config = JarvisConfig()
+        _config = NexusConfig()
     return _config
 
 
-def reload_config() -> JarvisConfig:
+def reload_config() -> NexusConfig:
     """Reload configuration from environment and .env file."""
     global _config
-    _config = JarvisConfig()
+    _config = NexusConfig()
     return _config
 
 

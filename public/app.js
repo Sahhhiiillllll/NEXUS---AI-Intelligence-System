@@ -114,12 +114,12 @@ const conversationHistory = []; // multi-turn context for demo mode
 
 function addMessage(role, text) {
   const msg = document.createElement('div');
-  msg.className = 'chat-msg ' + (role === 'jarvis' ? 'jarvis' : 'user');
+  msg.className = 'chat-msg ' + (role === 'nexus' ? 'nexus' : 'user');
   const timeStr = new Date().toTimeString().slice(0,8);
   msg.innerHTML = `
-    <div class="msg-avatar">${role === 'jarvis' ? 'J' : 'U'}</div>
+    <div class="msg-avatar">${role === 'nexus' ? 'J' : 'U'}</div>
     <div class="msg-content">
-      <span class="msg-sender">${role === 'jarvis' ? 'JARVIS' : 'YOU'}</span>
+      <span class="msg-sender">${role === 'nexus' ? 'NEXUS' : 'YOU'}</span>
       <p>${escapeHtml(text)}</p>
       <span class="msg-time">${timeStr}</span>
     </div>`;
@@ -478,7 +478,7 @@ function handleBackendMessage(data) {
 
   const reply = data.response || data.text || '';
   if (reply) {
-    addMessage('jarvis', reply);
+    addMessage('nexus', reply);
     speak(reply);
   } else {
     setState(STATES.IDLE);
@@ -490,7 +490,7 @@ const SYSTEM_PROMPT = `You are J.A.R.V.I.S — Just A Rather Very Intelligent Sy
 - Answer concisely (1–3 sentences for simple queries, more for complex ones)
 - Identify query intent: math/science → note you'd invoke WolframAlpha; weather → note you'd check OpenWeatherMap; scheduling → confirm and note the action
 - Maintain context across the conversation
-- For greetings, respond in character as JARVIS
+- For greetings, respond in character as NEXUS
 - Never break character`;
 
 async function askLLM(userText) {
@@ -578,7 +578,7 @@ async function handleUserInput(text) {
   reply = await askLLM(text);
   const lat = endLatency();
   addTerminalLine(`[LLM ] Response ready (${lat}ms)`, 'ok');
-  addMessage('jarvis', reply);
+  addMessage('nexus', reply);
   await speak(reply);
   setState(STATES.IDLE);
 }

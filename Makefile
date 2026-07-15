@@ -1,4 +1,4 @@
-# J.A.R.V.I.S — Makefile
+# N.A.X.U.S — Makefile
 # ======================
 # Common development tasks
 
@@ -6,7 +6,7 @@
 
 # Default target
 help:
-	@echo "J.A.R.V.I.S Development Tasks:"
+	@echo "N.A.X.U.S Development Tasks:"
 	@echo "  make build           - Build Docker image"
 	@echo "  make run             - Run the application (Docker)"
 	@echo "  make dev             - Run in development mode (localhost)"
@@ -19,7 +19,7 @@ help:
 
 # Docker targets
 build:
-	docker build -t jarvis .
+	docker build -t nexus .
 
 run:
 	docker run --rm -it \
@@ -27,9 +27,9 @@ run:
 		-p 8865:8865 \
 		-v $(PWD)/logs:/app/logs:rw \
 		-v $(PWD)/.env:/app/.env:ro \
-		-e JARVIS_HOST=0.0.0.0 \
-		-e JARVIS_PORT=8765 \
-		jarvis
+		-e NEXUS_HOST=0.0.0.0 \
+		-e NEXUS_PORT=8765 \
+		nexus
 
 dev:
 	python main.py

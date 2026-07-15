@@ -1,6 +1,6 @@
 """
-J.A.R.V.I.S — Resilience Patterns
-=================================
+N.A.X.U.S — Resilience Patterns
+===============================
 Circuit breaker, retry with exponential backoff, and bulkhead patterns
 for protecting external service calls.
 """

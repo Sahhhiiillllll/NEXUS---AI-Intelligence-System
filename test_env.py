@@ -7,8 +7,8 @@ load_dotenv()
 class APIKeys(BaseModel):
     openrouter: str = Field(default_factory=lambda: os.getenv("OPENROUTER_API_KEY"))
 
-class JarvisConfig(BaseModel):
+class NexusConfig(BaseModel):
     api_keys: APIKeys = Field(default_factory=APIKeys)
 
-config = JarvisConfig()
+config = NexusConfig()
 print("KEY IS:", config.api_keys.openrouter)
