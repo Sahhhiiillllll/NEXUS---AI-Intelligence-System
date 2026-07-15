@@ -1,5 +1,5 @@
 /**
- * J.A.R.V.I.S — Unified Intelligence Core
+ * NEXUS — Unified Intelligence Core
  * Frontend Application — app.js
  *
  * Handles:
@@ -8,7 +8,7 @@
  *  - System diagnostics mock telemetry
  *  - State machine (IDLE → LISTENING → PROCESSING → SPEAKING → IDLE)
  *  - Chat history & terminal log
- *  - WebSocket connection to Python backend (ws://localhost:8765)
+ *  - WebSocket connection to Python backend (ws://host:port)
  *  - Fallback: OpenRouter LLM via backend API in demo mode
  *  - Web Speech API for voice input + TTS output
  */
@@ -486,7 +486,7 @@ function handleBackendMessage(data) {
 }
 
 /* ═══════════════════════════════ LLM API (DEMO / FALLBACK) ═══════════════════════════════ */
-const SYSTEM_PROMPT = `You are J.A.R.V.I.S — Just A Rather Very Intelligent System — the AI assistant created by Tony Stark. You are highly articulate, confident, and subtly witty. You:
+const SYSTEM_PROMPT = `You are NEXUS — Just A Rather Very Intelligent System — the AI assistant created by Tony Stark. You are highly articulate, confident, and subtly witty. You:
 - Answer concisely (1–3 sentences for simple queries, more for complex ones)
 - Identify query intent: math/science → note you'd invoke WolframAlpha; weather → note you'd check OpenWeatherMap; scheduling → confirm and note the action
 - Maintain context across the conversation
@@ -538,7 +538,7 @@ function getFallbackResponse(text) {
   if (/date/.test(t))         return `Today is ${new Date().toDateString()}.`;
   if (/weather/.test(t))      return "I'd normally query OpenWeatherMap for live forecasts, but my network link is currently unavailable.";
   if (/thank/.test(t))        return "Of course. It's what I'm here for.";
-  if (/who are you|your name/.test(t)) return "I am J.A.R.V.I.S — Just A Rather Very Intelligent System.";
+  if (/who are you|your name/.test(t)) return "I am NEXUS — Just A Rather Very Intelligent System.";
   return "I received your query but my primary LLM link is offline. Please check your API configuration.";
 }
 
@@ -624,7 +624,7 @@ coreCanvas.addEventListener('click', () => voiceBtn.click());
 
 /* ═══════════════════════════════ BOOT SEQUENCE ═══════════════════════════════ */
 const bootLines = [
-  '[BOOT] Initializing J.A.R.V.I.S neural framework...',
+  '[BOOT] Initializing NEXUS neural framework...',
   '[BOOT] Loading intent classification models...',
   '[BOOT] Calibrating audio pipeline...',
   '[BOOT] Connecting to tool APIs...',

@@ -87,7 +87,7 @@ INDEX_HTML = '''<!DOCTYPE html>
 
       <!-- Text Input Fallback -->
       <div class="text-input-row">
-        <input type="text" id="textInput" class="jarvis-input" placeholder="Or type your command here..." autocomplete="off"/>
+        <input type="text" id="textInput" class="nexus-input" placeholder="Or type your command here..." autocomplete="off"/>
         <button class="send-btn" id="sendBtn">SEND</button>
       </div>
     </section>
@@ -103,7 +103,7 @@ INDEX_HTML = '''<!DOCTYPE html>
           <button class="clear-btn" id="clearChatBtn" title="Clear history">✕</button>
         </div>
         <div class="chat-history" id="chatHistory">
-          <div class="chat-msg jarvis">
+          <div class="chat-msg nexus">
             <div class="msg-avatar">J</div>
             <div class="msg-content">
               <span class="msg-sender">NEXUS</span>
@@ -431,7 +431,7 @@ body {
 
 /* ── Text Input ── */
 .text-input-row { display:flex; gap:8px; width:100%; max-width:460px; }
-.jarvis-input {
+.nexus-input {
   flex:1; background:rgba(0,220,255,0.04);
   border: 1px solid var(--c-border);
   border-radius:3px; padding:10px 14px;
@@ -439,8 +439,8 @@ body {
   outline:none; transition: border-color .3s, box-shadow .3s;
   letter-spacing:1px;
 }
-.jarvis-input::placeholder { color:var(--c-text-dim); }
-.jarvis-input:focus {
+.nexus-input::placeholder { color:var(--c-text-dim); }
+.nexus-input:focus {
   border-color: var(--c-cyan);
   box-shadow: 0 0 15px rgba(0,220,255,0.15);
 }
@@ -482,12 +482,12 @@ body {
   font-family:var(--font-display); font-size:10px; font-weight:700;
   flex-shrink:0; margin-top:2px;
 }
-.chat-msg.jarvis .msg-avatar { background:rgba(0,220,255,0.12); color:var(--c-cyan); border:1px solid rgba(0,220,255,0.3); }
+.chat-msg.nexus .msg-avatar { background:rgba(0,220,255,0.12); color:var(--c-cyan); border:1px solid rgba(0,220,255,0.3); }
 .chat-msg.user  .msg-avatar { background:rgba(0,102,255,0.12); color:#6699ff; border:1px solid rgba(0,102,255,0.3); }
 
 .msg-content { flex:1; min-width:0; }
 .msg-sender { font-family:var(--font-display); font-size:8px; letter-spacing:2px; color:var(--c-text-dim); display:block; margin-bottom:4px; }
-.chat-msg.jarvis .msg-sender { color:var(--c-cyan); }
+.chat-msg.nexus .msg-sender { color:var(--c-cyan); }
 .chat-msg.user  .msg-sender { color:#6699ff; }
 .msg-content p {
   font-family:var(--font-body); font-size:12px; font-weight:300;
@@ -717,12 +717,12 @@ const conversationHistory = []; // multi-turn context for demo mode
 
 function addMessage(role, text) {
   const msg = document.createElement('div');
-  msg.className = 'chat-msg ' + (role === 'jarvis' ? 'jarvis' : 'user');
+  msg.className = 'chat-msg ' + (role === 'nexus' ? 'nexus' : 'user');
   const timeStr = new Date().toTimeString().slice(0,8);
   msg.innerHTML = `
-    <div class="msg-avatar">${role === 'jarvis' ? 'J' : 'U'}</div>
+    <div class="msg-avatar">${role === 'nexus' ? 'N' : 'U'}</div>
     <div class="msg-content">
-      <span class="msg-sender">${role === 'jarvis' ? 'NEXUS' : 'YOU'}</span>
+      <span class="msg-sender">${role === 'nexus' ? 'NEXUS' : 'YOU'}</span>
       <p>${escapeHtml(text)}</p>
       <span class="msg-time">${timeStr}</span>
     </div>`;
@@ -1081,7 +1081,7 @@ function handleBackendMessage(data) {
 
   const reply = data.response || data.text || '';
   if (reply) {
-    addMessage('jarvis', reply);
+    addMessage('nexus', reply);
     speak(reply);
   } else {
     setState(STATES.IDLE);
@@ -1181,7 +1181,7 @@ async function handleUserInput(text) {
   reply = await askLLM(text);
   const lat = endLatency();
   addTerminalLine(`[LLM ] Response ready (${lat}ms)`, 'ok');
-  addMessage('jarvis', reply);
+  addMessage('nexus', reply);
   await speak(reply);
   setState(STATES.IDLE);
 }

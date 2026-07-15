@@ -1,11 +1,11 @@
-# J.A.R.V.I.S — docker-compose.yml
+# NEXUS — docker-compose.yml
 # ================================
 # Easy local development and testing
 
 version: '3.8'
 
 services:
-  jarvis:
+  nexus:
     build: .
     ports:
       - "8765:8765"   # WebSocket server
@@ -39,4 +39,4 @@ services:
 #   ports:
 #     - "3000:3000"
 #   depends_on:
-#     - jarvis
+#     - nexus

@@ -1,5 +1,5 @@
 """
-N.A.X.U.S — logger.py
+NEXUS — logger.py
 ======================
 Structured JSON logging system.
 

@@ -1,6 +1,6 @@
 """
-J.A.R.V.I.S — Metrics Collection
-================================
+NEXUS — Metrics Collection
+==========================
 Prometheus metrics for monitoring system performance and health.
 """
 
@@ -10,47 +10,47 @@ import time
 
 # Request metrics
 REQUEST_COUNT = Counter(
-    'jarvis_requests_total',
+    'nexus_requests_total',
     'Total number of requests processed',
     ['method', 'endpoint', 'status_code']
 )
 
 REQUEST_LATENCY = Histogram(
-    'jarvis_request_duration_seconds',
+    'nexus_request_duration_seconds',
     'Request latency in seconds',
     ['method', 'endpoint']
 )
 
 # External API metrics
 EXTERNAL_API_CALLS = Counter(
-    'jarvis_external_api_calls_total',
+    'nexus_external_api_calls_total',
     'Total number of external API calls',
     ['service', 'outcome']  # outcome: success or failure
 )
 
 # Circuit breaker metrics
 CIRCUIT_BREAKER_STATE = Gauge(
-    'jarvis_circuit_breaker_state',
+    'nexus_circuit_breaker_state',
     'Circuit breaker state (0=closed, 1=open, 2=half_open)',
     ['service']
 )
 
 # Connection metrics
 ACTIVE_WEBSOCKET_CONNECTIONS = Gauge(
-    'jarvis_websocket_connections_active',
+    'nexus_websocket_connections_active',
     'Number of active WebSocket connections'
 )
 
 # Bulkhead metrics
 BULKHEAD_ACTIVE = Gauge(
-    'jarvis_bulkhead_active',
+    'nexus_bulkhead_active',
     'Number of active executions in bulkhead',
     ['resource']
 )
 
 # Error metrics
 ERROR_COUNT = Counter(
-    'jarvis_errors_total',
+    'nexus_errors_total',
     'Total number of errors',
     ['type', 'component']
 )

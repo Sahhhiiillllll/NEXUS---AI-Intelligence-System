@@ -1,6 +1,6 @@
-# J.A.R.V.I.S — Unified Intelligence Core
+# NEXUS — Unified Intelligence Core
 
-> **J.A.R.V.I.S** (Just A Rather Very Intelligent System) is a production-ready, voice-enabled AI assistant inspired by Tony Stark's AI from the Iron Man franchise. It ships with a cyberpunk neural HUD, real-time voice interaction, multi-tool LLM routing, and **one-click Vercel deployment** where the Python API starts automatically with the app — no separate backend server to run.
+> **NEXUS** (Just A Rather Very Intelligent System) is a production-ready, voice-enabled AI assistant inspired by Tony Stark's AI from the Iron Man franchise. It ships with a cyberpunk neural HUD, real-time voice interaction, multi-tool LLM routing, and **one-click Vercel deployment** where the Python API starts automatically with the app — no separate backend server to run.
 
 ---
 
@@ -65,7 +65,7 @@ For development with microphone capture and persistent WebSocket:
 ```
 ┌─────────────────┐    WebSocket     ┌──────────────────┐
 │   Frontend UI   │ ◀──────────────▶ │   main.py        │
-│  (HTML/CSS/JS)  │   ws://:8765     │  JarvisCore      │
+│  (HTML/CSS/JS)  │   ws://:8765     │  NexusCore       │
 └─────────────────┘                  └────────┬─────────┘
                                               │
                     ┌─────────────────────────┼─────────────────────────┐
@@ -316,13 +316,13 @@ make docker-compose-up    # Docker stack
 For VPS / cloud containers with full WebSocket + audio:
 
 ```bash
-docker build -t jarvis-ai .
+docker build -t nexus-ai .
 docker run -d \
-  --name jarvis \
+  --name nexus \
   -p 8765:8765 \
   -p 9765:9765 \
   --env-file .env \
-  jarvis-ai
+  nexus-ai
 ```
 
 Or with Compose:

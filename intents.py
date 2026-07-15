@@ -1,6 +1,6 @@
 """
-J.A.R.V.I.S — intents.py
-=========================
+NEXUS — intents.py
+====================
 Intelligent intent classification and tool-routing pipeline.
 
 Tools:
@@ -93,7 +93,7 @@ class LLMTool(BaseTool):
     name = "llm"
 
     SYSTEM_PROMPT = (
-        "You are J.A.R.V.I.S — Just A Rather Very Intelligent System, "
+        "You are NEXUS — Just A Rather Very Intelligent System, "
         "the AI assistant created by Tony Stark. You are articulate, confident, "
         "subtly witty, and extremely helpful. Keep responses concise (1–4 sentences) "
         "unless asked for detail. Never break character."
@@ -131,7 +131,7 @@ class LLMTool(BaseTool):
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json",
             "HTTP-Referer": "https://github.com/Sahhhiiillllll/NEXUS---AI-Intelligence-System-LLM",
-            "X-Title": "J.A.R.V.I.S",
+            "X-Title": "NEXUS",
         }
         url = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -593,7 +593,7 @@ class FallbackTool(BaseTool):
         r'\b(joke|funny|humor)\b':
             "I'm afraid my humor subroutines are in maintenance mode. Ask me something more practical.",
         r'\b(who (are|is) you|your name)\b':
-            "I am J.A.R.V.I.S — Just A Rather Very Intelligent System.",
+            "I am NEXUS — Just A Rather Very Intelligent System.",
         r'\b(how are you|status)\b':
             "All primary subsystems are functioning within normal parameters.",
         r'\b(shutdown|exit|quit|goodbye|bye)\b':

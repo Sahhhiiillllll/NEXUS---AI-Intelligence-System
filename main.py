@@ -33,7 +33,7 @@ config = get_config()
 log = get_logger("main")
 
 
-class JarvisCore:
+class NexusCore:
     """
     Central coordinator.
     Manages WebSocket clients and orchestrates the full pipeline:
@@ -45,7 +45,7 @@ class JarvisCore:
         self.audio          = AudioEngine(on_transcript=self._handle_transcript)
         self.ws_clients: set = set()
         self._running       = True
-        log.info("JarvisCore initialized", extra={"event": "boot"})
+        log.info("NexusCore initialized", extra={"event": "boot"})
 
     # ─────────────── WebSocket server ───────────────
     async def ws_handler(self, websocket):
@@ -176,9 +176,9 @@ class JarvisCore:
         # Start audio engine in background
         audio_task = asyncio.create_task(self.audio.listen_loop())
 
-        log.info("J.A.R.V.I.S is online", extra={"event": "ready"})
+        log.info("NEXUS is online", extra={"event": "ready"})
         print("\n" + "═" * 60)
-        print("  J.A.R.V.I.S — Unified Intelligence Core")
+        print("  NEXUS — Unified Intelligence Core")
         print(f"  WebSocket: ws://{config.server.host}:{config.server.port}")
         print(f"  HTTP:      http://{config.server.host}:{config.server.port + 1000}")
         print("  Open public/index.html in a browser")
@@ -198,7 +198,7 @@ class JarvisCore:
 
 
 def main():
-    core = JarvisCore()
+    core = NexusCore()
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 

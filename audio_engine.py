@@ -88,7 +88,7 @@ class AudioEngine:
     def __init__(self, on_transcript: Callable[[str], Awaitable[None]] = None):
         self._recognizer     = sr.Recognizer()
         self._tts            = TTSEngine()
-        self._executor       = ThreadPoolExecutor(max_workers=4, thread_name_prefix="jarvis-audio")
+        self._executor       = ThreadPoolExecutor(max_workers=4, thread_name_prefix="nexus-audio")
         self._on_transcript  = on_transcript
         self._running        = False
         self._calibrated     = False
